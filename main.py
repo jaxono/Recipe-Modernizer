@@ -67,12 +67,12 @@ while True:
 
         size = size * UNIT_SIZES[UNIT_NAMES.index(unit)]
 
-        # Print out the data
+        # Add the ingredient to the list
 
         ingr_names.append(name)
         ingr_sizes.append(size)
 
-        print("Added " + str(size) + " " + unit + " " + name)
+        print("Added " + str(size) + " g " + name)
 
     except ValueError:
         print("Syntax Error, please re-enter")
@@ -85,5 +85,26 @@ while True:
 print()
 print("Modern Recipe:")
 
-for ingr in ingr_names:
-    print(ingr)
+# Loop though all ingredients
+
+i = 0
+while i < len(ingr_names):
+
+    # Get ingredient data from list and scale sizes
+
+    size = ingr_sizes[i] * ratio
+    name = ingr_names[i]
+    unit = "g"
+
+    # Convert to mg or kg if appropriate
+
+    if size < 1:
+        size = size * 1000
+        unit = "mg"
+
+    elif size >= 1000:
+        size = size / 1000
+        unit = "kg"
+
+    print(str(size) + " " + unit + " " + name)
+    i = i + 1
