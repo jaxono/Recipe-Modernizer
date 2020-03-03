@@ -30,7 +30,7 @@ while True:
 
 # Print out name and ratio and warn if ratio is to big/small
 
-print("Name: {}, Ratio: 1 : {}".format(recipe_name, ratio))
+print("Name: {}, Ratio: 1 : {}".format(recipe_name, round(ratio, 3)).rstrip("0").rstrip("."))
 if ratio > 3:
     print("That is quite large, you should make smaller batches.")
 if ratio < .25:
@@ -72,7 +72,7 @@ while True:
         ingr_names.append(name)
         ingr_sizes.append(size)
 
-        print("Added " + str(size) + " g " + name)
+        print("Added " + str(round(size, 3)).rstrip("0").rstrip(".") + " g " + name)
 
     except ValueError:
         print("Syntax Error, please re-enter")
@@ -83,7 +83,7 @@ while True:
 # Print out new recipe
 
 print()
-print("Modern Recipe:")
+print("Modern Recipe:\n\n{}\n".format(recipe_name))
 
 # Loop though all ingredients
 
@@ -106,5 +106,7 @@ while i < len(ingr_names):
         size = size / 1000
         unit = "kg"
 
-    print(str(size) + " " + unit + " " + name)
+        # Print out ingredient
+
+    print(str(round(size, 3)).rstrip("0").rstrip(".") + " " + unit + " " + name)
     i = i + 1
