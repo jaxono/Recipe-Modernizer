@@ -20,7 +20,6 @@ while True:
         # Calculate Ratio
 
         ratio = float(new_ser_size) / float(ori_ser_size)
-        break
     except ValueError:  # Check if input formatting is correct
         print('Invalid Input, please re-enter and make sure that "Original Serving Size" and "New Serving Size" are valid numbers.')
         continue
@@ -28,13 +27,27 @@ while True:
         print('"Original Serving Size" cannot be 0, please re-enter.')
         continue
 
-# Print out name and ratio and warn if ratio is to big/small
+    # Warn if ratio is to big/small
+
+    if ratio > 3:
+        con = input("That is quite large, you should make smaller batches. Continue? (Y/N): ").lower().strip()
+        if con == "yes" or con == "y":
+            break
+        else:
+            continue
+
+    if ratio < .25:
+        con = input("That is quite small, you should make larger batches and freeze leftovers. Continue? (Y/N): ").lower().strip()
+        if con == "yes" or con == "y":
+            break
+        else:
+            continue
+    break
+
+# Print out name and ratio and a blank line for separation
 
 print("Name: {}, Ratio: 1 : {}".format(recipe_name, round(ratio, 3)).rstrip("0").rstrip("."))
-if ratio > 3:
-    print("That is quite large, you should make smaller batches.")
-if ratio < .25:
-    print("That is quite small, you should make larger batches and freeze leftovers.")
+print()
 
 # Ask for Ingredients
 
@@ -109,4 +122,4 @@ while i < len(ingr_names):
         # Print out ingredient
 
     print(str(round(size, 3)).rstrip("0").rstrip(".") + " " + unit + " " + name)
-    i = i + 1
+    i += 1
