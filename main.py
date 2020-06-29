@@ -5,8 +5,17 @@ UNIT_SIZES = [1, 0.001, 1000, 1, 1000, 1000000, 28.3495, 453.592, 6350.29, 90718
 
 recipe_name = input("Recipe Name: ").title()  # Get Name
 
-ingr_names = []
-ingr_sizes = []
+ingrs = []
+
+
+class Ingr:
+    def __init__(self, name, size):
+        self.name = name
+        self.size = size
+
+
+ingr_name = ""
+ratio = 1
 
 while True:
     try:
@@ -69,21 +78,20 @@ while True:
 
         # Separate data
 
-        size = float(ingredient[:ingredient.index(" ")])
+        ingr_size = float(ingredient[:ingredient.index(" ")])
         ingredient = ingredient[ingredient.index(" ") + 1:]
         unit = ingredient[:ingredient.index(" ")].lower()
-        name = ingredient[ingredient.index(" ") + 1:].title()
+        ingr_name = ingredient[ingredient.index(" ") + 1:].title()
 
         # Convert to the gram
 
-        size = size * UNIT_SIZES[UNIT_NAMES.index(unit)]
+        ingr_size = ingr_size * UNIT_SIZES[UNIT_NAMES.index(unit)]
 
         # Add the ingredient to the list
 
-        ingr_names.append(name)
-        ingr_sizes.append(size)
+        ingrs.append(Ingr(ingr_name, ingr_size))
 
-        print("Added " + str(round(size, 3)).rstrip("0").rstrip(".") + " g " + name)
+        print("Added " + str(round(ingr_size, 3)).rstrip("0").rstrip(".") + " g " + ingr_name)
 
     except ValueError:
         print("Syntax Error, please re-enter")
@@ -99,25 +107,24 @@ print("Modern Recipe:\n\n{}\n".format(recipe_name))
 # Loop though all ingredients
 
 i = 0
-while i < len(ingr_names):
+while i < len(ingrs):
 
     # Get ingredient data from list and scale sizes
 
-    size = ingr_sizes[i] * ratio
-    name = ingr_names[i]
+    ingr_size = ingrs[i].size * ratio
     unit = "g"
 
     # Convert to mg or kg if appropriate
 
-    if size < 1:
-        size = size * 1000
+    if ingr_size < 1:
+        ingr_size = ingr_size * 1000
         unit = "mg"
 
-    elif size >= 1000:
-        size = size / 1000
+    elif ingr_size >= 1000:
+        ingr_size = ingr_size / 1000
         unit = "kg"
 
         # Print out ingredient
 
-    print(str(round(size, 3)).rstrip("0").rstrip(".") + " " + unit + " " + name)
+    print(str(round(ingr_size, 3)).rstrip("0").rstrip(".") + " " + unit + " " + ingrs[i].name)
     i += 1
