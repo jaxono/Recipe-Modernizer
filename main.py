@@ -1,4 +1,5 @@
 # Declare Variables
+from math import inf
 
 UNIT_NAMES = ["g", "mg", "kg", "ml", "l", "t", "oz", "lbs", "st", "ton", "c", "tbsp", "dstspn", "tsp"]
 UNIT_SIZES = [1, 0.001, 1000, 1, 1000, 1000000, 28.3495, 453.592, 6350.29, 907185, 128, 15, 10, 5]
@@ -34,7 +35,15 @@ while True:
         print('"Original Serving Size" cannot be 0, please re-enter.')
         continue
 
-    # Warn if ratio is to big/small
+    # Warn if ratio is to big/small/ or force re-entry infinite/0/negative
+
+    if ratio <= 0:
+        print("That ratio is 0 or less, please re-enter.")
+        continue
+
+    if ratio == inf:
+        print("That ratio is so large that the computer thinks that it is infinite, please re-enter.")
+        continue
 
     if ratio > 3:
         con = input("That is quite large, you should make smaller batches. Continue? (Y/N): ").lower().strip()
@@ -58,7 +67,14 @@ print()
 
 # Ask for Ingredients
 
-print('Enter a list of ingredients that are in your recipe. Syntax: "<Size> <Unit> <Ingredient>" eg. "100 g butter", "50 lbs butter", "1 kg milk", "1 l milk", "1 c flower"...')
+print("""Enter a list of ingredients that are in your recipe. Syntax: "<Size> <Unit> <Ingredient>" eg.
+100 g butter
+50 lbs butter
+1 kg milk
+1 l milk
+1 c flower
+done
+""")
 
 while True:
     ingredient = input('Enter Ingredient, type "done" to end: ')
@@ -78,10 +94,28 @@ while True:
 
         # Separate data
 
-        ingr_size = float(ingredient[:ingredient.index(" ")])
+        ingr_size = ingredient[:ingredient.index(" ")]
         ingredient = ingredient[ingredient.index(" ") + 1:]
         unit = ingredient[:ingredient.index(" ")].lower()
         ingr_name = ingredient[ingredient.index(" ") + 1:].title()
+
+        # Process ingr_size
+
+        if ingr_size.count("/") == 0:
+            ingr_size = float(ingr_size)
+        elif ingr_size.count("/") == 1:
+            ingr_size = float(ingr_size[:ingr_size.index("/")]) / float(ingr_size[ingr_size.index("/") + 1:])
+        else:
+            print("Syntax Error, please re-enter")
+            continue
+
+        if ingr_size <= 0:
+            print("That size is 0 or less, please re-enter.")
+            continue
+
+        if ingr_size == inf:
+            print("That size is so large that the computer thinks that it is infinite, please re-enter.")
+            continue
 
         # Convert to the gram
 
