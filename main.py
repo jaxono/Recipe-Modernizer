@@ -1,10 +1,54 @@
 # Declare Variables
 from math import inf
 
-UNIT_NAMES = ["g", "mg", "kg", "ml", "l", "t", "oz", "lbs", "st", "ton", "c", "tbsp", "dstspn", "tsp", "pinch"]
-UNIT_SIZES = [1, 0.001, 1000, 1, 1000, 1000000, 28.3495, 453.592, 6350.29, 907185, 128, 15, 10, 5, 0.355625]
+#UNIT_NAMES = ["g", "mg", "kg", "ml", "l", "t", "oz", "lbs", "st", "ton", "c", "tbsp", "dstspn", "tsp", "pinch"]
+#UNIT_SIZES = [1, 0.001, 1000, 1, 1000, 1000000, 28.3495, 453.592, 6350.29, 907185, 128, 15, 10, 5, 0.355625]
 
-USELESS_WORDS = ["the", "of", "a"]
+UNITS = [[["mg", "milligram", "milligrams"], 0.001],
+         [["g", "gram", "grams", "ml", "millilitre", "millilitres", "milliliter", "milliliters"], 1],
+         [["kg", "kilogram", "kilograms", "l", "litre", "litres", "liter", "liters"], 1000],
+         [["t", "tonne", "tonnes", "metric tonne", "metric tonnes", "megagram", "megagrams"], 1000000],
+
+         [["st", "stone", "stones"], 6350.29],
+         [["ton", "tons"], 907185],
+         [["pinch"], 0.355625],
+         [["dstspn", "dessertspoon", "dessertspoons"], 10],
+
+         [["gr", "grain", "grains"], 0.006479891],
+         [["min", "minim", "minims"], 0.061611519921875],
+         [["s", "scruple", "scruples"], 1.18387760416],
+         [["dwt", "pennyweight", "pennyweights"], 1.55517384],
+         [["dr", "dram", "drams", "drachm", "drachms"], 1.7718451953125],
+         [["tsp", "teaspoon", "teaspoons"], 4.92892159375],
+         [["tbsp", "tablespoon", "tablespoons"], 14.78676478125],
+         [["oz", "ounce", "ounces"], 28.349523125],
+         [["jig", "shot", "shots"], 44.36029434375],
+         [["gi", "gill", "gills"], 118.29411825],
+         [["c", "cup", "cups"], 236.5882365],
+         [["lbs", "pound", "pounds"], 453.59237],
+         [["pt", "pint", "pints"], 473.176473],
+         [["qt", "quart", "quarts"], 946.352946],
+         [["pot", "pottle", "pottles", "pottel", "pottels"], 1892.70589],
+         [["gal", "gallon", "gallons"], 3785.411784],
+         [["pk", "peck", "pecks"], 8809.768],
+         [["slug", "slugs"], 14593.90294],
+         [["bu", "brushel", "brushels"], 35239.07016688],
+         [["cwt", "hundredweight", "hundredweights"], 45359.237],
+         [["bbl", "barrel", "barrels"], 119240.471196],
+         [["hogshead", "hogsheads"], 238480.942392],
+
+         [["si", "sis"], 0.0003125],
+         [["hao", "haos"], 0.003125],
+         [["li", "lis"], 0.05],
+         [["fen", "fens"], 0.5],
+         [["qian", "qians"], 5],
+         [["liang", "liangs"], 50],
+         [["jin", "jins"], 500],
+         [["dan", "dans"], 50000],
+
+         [["nothing"], 0]]
+
+USELESS_WORDS = ["the", "of", "a", "an"]
 
 recipe_name = input("Recipe Name: ").title()  # Get Name
 
@@ -123,14 +167,26 @@ while True:
         except:
             pass
 
-        for unit_name in UNIT_NAMES:
-            if front_word.strip().lower() == unit_name:
-                unit = front_word.strip().lower()
-                try:
+        for x in range(len(UNITS)):
+            #print(UNITS[x])
+            for y in range(len(UNITS[x][0])):
+                if front_word.strip().lower() == UNITS[x][0][y]:
+                    #print(UNITS[x][0][y])
+                    unit = UNITS[x][0][0]
                     ingredient = ingredient[ingredient.index(" ") + 1:]
-                except:
-                    break
-                continue_now = True
+                    continue_next = True
+        if continue_next:
+            continue
+                #print(UNITS[x][0][y])
+
+        #for unit_name in UNIT_NAMES:
+        #    if front_word.strip().lower() == unit_name:
+        #        unit = front_word.strip().lower()
+        #        try:
+        #            ingredient = ingredient[ingredient.index(" ") + 1:]
+        #        except:
+        #            break
+        #        continue_now = True
         if continue_now:
             continue
 
@@ -175,7 +231,12 @@ while True:
         # Convert to the gram
 
         if ingr_united:
-            ingr_size = ingr_size * UNIT_SIZES[UNIT_NAMES.index(unit)]
+            for x in range(len(UNITS)):
+            #print(UNITS[x])
+                for y in range(len(UNITS[x][0])):
+                    if unit == UNITS[x][0][y]:
+                        ingr_size = ingr_size * UNITS[x][1]
+            #ingr_size = ingr_size * UNIT_SIZES[UNIT_NAMES.index(unit)]
 
         # Add the ingredient to the list
 
