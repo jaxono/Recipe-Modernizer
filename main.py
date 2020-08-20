@@ -1,9 +1,6 @@
 # Declare Variables
 from math import inf
 
-#UNIT_NAMES = ["g", "mg", "kg", "ml", "l", "t", "oz", "lbs", "st", "ton", "c", "tbsp", "dstspn", "tsp", "pinch"]
-#UNIT_SIZES = [1, 0.001, 1000, 1, 1000, 1000000, 28.3495, 453.592, 6350.29, 907185, 128, 15, 10, 5, 0.355625]
-
 UNITS = [[["mg", "milligram", "milligrams"], 0.001],
          [["g", "gram", "grams", "ml", "millilitre", "millilitres", "milliliter", "milliliters"], 1],
          [["kg", "kilogram", "kilograms", "l", "litre", "litres", "liter", "liters"], 1000],
@@ -139,76 +136,52 @@ while True:
     unit = ""
     ingr_name = ""
 
-    while True:
-        continue_now = False
-        try:
-            front_word = ingredient[:ingredient.index(" ")]
-        except:
-            break
-
-        for useless_word in USELESS_WORDS:
-            if front_word.strip().lower() == useless_word:
-                ingredient = ingredient[ingredient.index(" ") + 1:]
-                continue_now = True
-        if continue_now:
-            continue
-
-        try:
-            if ingr_size.count("/") == 0:
-                float(front_word.strip().lower())
-                ingr_size = front_word.strip().lower()
-            elif ingr_size.count("/") == 1:
-                ingr_size = front_word.strip().lower()
-            try:
-                    ingredient = ingredient[ingredient.index(" ") + 1:]
-            except:
-                break
-            continue
-        except:
-            pass
-
-        for x in range(len(UNITS)):
-            #print(UNITS[x])
-            for y in range(len(UNITS[x][0])):
-                if front_word.strip().lower() == UNITS[x][0][y]:
-                    #print(UNITS[x][0][y])
-                    unit = UNITS[x][0][0]
-                    ingredient = ingredient[ingredient.index(" ") + 1:]
-                    continue_next = True
-        if continue_next:
-            continue
-                #print(UNITS[x][0][y])
-
-        #for unit_name in UNIT_NAMES:
-        #    if front_word.strip().lower() == unit_name:
-        #        unit = front_word.strip().lower()
-        #        try:
-        #            ingredient = ingredient[ingredient.index(" ") + 1:]
-        #        except:
-        #            break
-        #        continue_now = True
-        if continue_now:
-            continue
-
-        break
-
-    ingr_name = ingredient.title()
-
-    ingr_united = not unit == ""
-
-    #print()
-    #print(ingr_size)
-    #print(unit)
-    #print(ingr_name)
-
     try:
 
         # Separate data
 
-        #ingr_size = ingredient[:ingredient.index(" ")]
-        #ingredient = ingredient[ingredient.index(" ") + 1:]
-        #unit = ingredient[:ingredient.index(" ")].lower()
-        #ingr_name = ingredient[ingredient.index(" ") + 1:].title()
+        while True:
+            continue_now = False
+            try:
+                front_word = ingredient[:ingredient.index(" ")]
+            except:
+                break
+
+            for useless_word in USELESS_WORDS:
+                if front_word.strip().lower() == useless_word:
+                    ingredient = ingredient[ingredient.index(" ") + 1:]
+                    continue_now = True
+            if continue_now:
+                continue
+
+            try:
+                if ingr_size.count("/") == 0:
+                    float(front_word.strip().lower())
+                    ingr_size = front_word.strip().lower()
+                elif ingr_size.count("/") == 1:
+                    ingr_size = front_word.strip().lower()
+                try:
+                    ingredient = ingredient[ingredient.index(" ") + 1:]
+                except:
+                    break
+                continue
+            except:
+                pass
+
+            for x in range(len(UNITS)):
+                for y in range(len(UNITS[x][0])):
+                    if front_word.strip().lower() == UNITS[x][0][y]:
+                        unit = UNITS[x][0][0]
+                        ingredient = ingredient[ingredient.index(" ") + 1:]
+                        continue_now = True
+            if continue_now:
+                continue
+
+            break
+
+        ingr_name = ingredient.title()
+
+        ingr_united = not unit == ""
 
         # Process ingr_size
 
@@ -232,11 +205,9 @@ while True:
 
         if ingr_united:
             for x in range(len(UNITS)):
-            #print(UNITS[x])
                 for y in range(len(UNITS[x][0])):
                     if unit == UNITS[x][0][y]:
                         ingr_size = ingr_size * UNITS[x][1]
-            #ingr_size = ingr_size * UNIT_SIZES[UNIT_NAMES.index(unit)]
 
         # Add the ingredient to the list
 
